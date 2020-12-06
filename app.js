@@ -46,7 +46,7 @@ app.post('/upload', upload.single('logfile'), function (req, res, next) {
   })
 })
 
-let port = process.env.port|3000
+let port = process.env.port || 3000
 app.listen(port)
 console.log("App started at http://localhost:" + port)
 
