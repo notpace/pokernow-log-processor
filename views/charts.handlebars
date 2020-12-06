@@ -1,0 +1,66 @@
+<script>
+  window.onload = function(e){
+    // Render Charts
+    let ctxStack = document.getElementById('stackSizes').getContext('2d');
+    let stackSizes = new Chart(ctxStack, {{{stackSizes}}})
+    let ctxOutcome = document.getElementById('handOutcomes').getContext('2d');
+    let handOutcomes = new Chart(ctxOutcome, {{{handOutcomes}}})
+    let ctxWinningHands = document.getElementById('winningHands').getContext('2d');
+    let winningHands = new Chart(ctxWinningHands, {{{winningHands}}})
+    // Add styling to ledger table
+    let netAmountBadges = document.getElementsByClassName('netAmount')
+    var i
+    for (i = 0; i < netAmountBadges.length; i++) {
+      let j = netAmountBadges[i]
+      if (parseInt(j.innerText) > 0) {
+        j.classList.add("positive")
+      }
+      else if (parseInt(j.innerText) < 0) {
+        j.classList.add("negative")
+      }
+    }
+  }
+</script>
+
+<h2>Stack Sizes</h2>
+<div class="container-xl">
+  <canvas id="stackSizes" style="height:600px"></canvas>
+</div>
+
+<h2>End of Action</h2>
+<div class="container">
+  <canvas id="handOutcomes"></canvas>
+</div>
+
+<h2>Winning Hands at Showdown</h2>
+<div class="container">
+  <canvas id="winningHands"></canvas>
+</div>
+
+<h2>Game Ledger</h2>
+<div class="container-sm">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th class="left-align">Buy-ins</th>
+        <th class="left-align">Cash-outs</th>
+        <th class="left-align">Net</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each ledgerTable}}
+      <tr>
+        <td>{{player}}</td>
+        <td class="left-align">{{buyins}}</td>
+        <td class="left-align">{{cashouts}}</td>
+        <td class="left-align">
+          <span class="netAmount">
+            {{net}}
+          </span>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

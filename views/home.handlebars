@@ -1,0 +1,32 @@
+<h2>Get Poker Now Stats</h2>
+
+<form method="POST" action="/upload" enctype="multipart/form-data">
+
+  <div class="container-md">
+    <div class="input-group mb-3">
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="upload" name="logfile" onchange="document.getElementById('file_upload_label').innerText = document.getElementById('upload').files[0].name">
+        <label class="custom-file-label" id="file_upload_label" for="upload" aria-describedby="upload_button">Choose a Poker Now log file</label>
+      </div>
+    </div>
+    <input class="btn btn-primary btn-lg btn-block" type="submit" name="upload_button" value="Upload" />
+  </div>
+
+</form>
+
+<h2>Wait...What is this?</h2>
+
+<div class="container-xl">
+  <div class="row">
+    <div class="card col-4">
+      <ol class="list-group list-group-flush">
+        <li class="list-group-item">1. Upload your <a href="https://pokernow.club">PokerNow</a> log file</li>
+        <li class="list-group-item">2. Enjoy some pretty charts</li>
+        <li class="list-group-item">3. Get back to playing poker</li>
+      </ol>
+    </div>
+    <div class="col-8">
+      This is a quick-and-dirty app that takes your <a href="https://pokernow.club">PokerNow</a> log files and turns them into some pretty charts and graphs. All data is deleted as soon as it is processed (seriously - check the source code if you want to).
+    </div>
+  </div>
+</div>

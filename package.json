@@ -1,0 +1,21 @@
+{
+  "name": "pokernow_log_processor",
+  "version": "1.0.0",
+  "description": "Parses the log file from PokerNow.club and outputs usable info",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Pace Ricciardelli <notpace@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "chart.js": "^2.9.4",
+    "chartjs-node-canvas": "^3.0.6",
+    "csv-parse": "^4.14.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.0",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.6"
+  }
+}

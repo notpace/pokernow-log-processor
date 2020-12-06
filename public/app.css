@@ -1,0 +1,80 @@
+* { font-family: 'Roboto', sans-serif; }
+
+body {
+  margin: 0;
+}
+
+header {
+  background-color: black;
+  display: block;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+header a:hover {
+  text-decoration: none;
+}
+
+.home-title {
+  margin: 0;
+  font-family: "Josefin Sans",sans-serif;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 3.2vw;
+  text-transform: uppercase;
+  color: #fff;
+  width: 100%;
+  text-align: center;
+  letter-spacing: .1rem;
+  text-shadow: 0 0 2vh rgba(213,255,0,.75);
+}
+
+.home-subtitle {
+  color: #fff;
+  font-family: "Josefin Sans",sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 2.4vw;
+  margin: 0;
+  /* letter-spacing: .1rem; */
+  text-shadow: 0 0 2vh rgba(213,255,0,.75);
+}
+
+h2 {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  background-color: black;
+  color: white;
+  font-family: "Josefin Sans",sans-serif;
+  font-weight: 500;
+  margin-top: 40px;
+  font-size: 1.6rem;
+  padding-top: 0.4rem;
+}
+
+#file_upload_label {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.netAmount {
+  font-weight: bold;
+}
+
+.netAmount.positive {
+  color: green;
+}
+
+.netAmount.negative {
+  color: red;
+}
+
+.table .left-align {
+  text-align: right;
+}
+
+footer {
+  background-color: #EEE;
+}
