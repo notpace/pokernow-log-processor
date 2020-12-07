@@ -73,6 +73,10 @@ function constructLedgerTable(ledgerActions){
   ledgerTable.forEach(function(row){
     row.net = row.cashouts - row.buyins
   })
+  // Sort by net, descending
+  ledgerTable.sort(function(a,b){
+    return b.net - a.net
+  })
   // Turn the Ledger Table into an Object for Handlebars
   return Object.assign({}, ledgerTable)
 }

@@ -64,3 +64,25 @@
     </tbody>
   </table>
 </div>
+
+<h2>Time To Act</h2>
+<div class="container-sm">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th class="left-align">Average Time To Act (seconds)</th>
+        <th class="left-align">Maximum Time to Act (seconds)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each timeToAct}}
+      <tr>
+        <td>{{player}}</td>
+        <td class="left-align">{{averageTimeToAct}}</td>
+        <td class="left-align">{{maxTimeToAct}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

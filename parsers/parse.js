@@ -2,11 +2,13 @@ const ledgerTableParser = require('./ledgerTable.js')
 const stackSizeParser = require('./stackSizes.js')
 const handOutcomesParser = require('./handOutcomes.js')
 const winningHandsParser = require('./winningHands.js')
+const timeToActParser = require('./timeToAct.js')
 
 module.exports.ledgerTable = ledgerTable
 module.exports.stackSizes = stackSizes
 module.exports.handOutcomes = handOutcomes
 module.exports.winningHands = winningHands
+module.exports.timeToAct = timeToAct
 
 function ledgerTable(data){
   return ledgerTableParser.getParsedLedgerTable(data)
@@ -25,6 +27,11 @@ function handOutcomes(data){
 function winningHands(data){
   let allHands = getHands(sortByOrder(orderToInt(data)))
   return winningHandsParser.getParsedWinningHands(allHands)
+}
+
+function timeToAct(data){
+  let allHands = getHands(sortByOrder(orderToInt(data)))
+  return timeToActParser.getParsedTimeToAct(allHands)
 }
 
 //Parsing Cleanup
