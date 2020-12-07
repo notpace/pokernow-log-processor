@@ -37,7 +37,7 @@ function timeToAct(data){
 //Parsing Cleanup
 function orderToInt(data){
   return fixedOrder = data.map(function(obj) {
-    return {order: parseInt(obj.order), at: obj.at, entry: obj.entry};
+    return {order: parseFloat(obj.order), at: obj.at, entry: obj.entry};
   });
 }
 

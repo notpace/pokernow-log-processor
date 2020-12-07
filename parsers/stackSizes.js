@@ -1,4 +1,6 @@
 const colors = ['green','blue','red','orange','purple','brown','black', 'pink', 'gray']
+const playerRegex = /\"(.*)\s@/
+const stackRegex = /\(([^)]+)\)/
 
 module.exports.getParsedStackSizes = getParsedStackSizes
 
@@ -17,11 +19,9 @@ function getStacks(data){
 function parseStacks(stacks){
   let splitStacks = stacks.replace("Player stacks: ","").split(" | ")
   let parsedStacks = []
-  const playerRegex = /\"(.*)\s@/
-  const stackRegex = /\(([^)]+)\)/
   splitStacks.forEach(function(stack){
     let player = stack.match(playerRegex)[1].trim();
-    let stackTotal = parseInt(stack.match(stackRegex)[1]);
+    let stackTotal = parseFloat(stack.match(stackRegex)[1]);
     parsedStacks.push({"player": player, "stack": stackTotal})
   })
   return parsedStacks;

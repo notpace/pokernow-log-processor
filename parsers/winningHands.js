@@ -1,12 +1,12 @@
+// Set up for hand outcome searches
+const showdownRegex = /.*collected (\d*(?:\.\d\d)?) from pot with ([\w\s]*)[,(].*/
+const showdown = (row) => row.entry.search(showdownRegex) >= 0
+
 module.exports.getParsedWinningHands = getParsedWinningHands
 
 function getParsedWinningHands(data){
   return getWinningHandsChartData(getWinningHands(data))
 }
-
-// Set up for hand outcome searches
-const showdownRegex = /.*collected (\d*) from pot with ([\w\s]*)[,(].*/
-const showdown = (row) => row.entry.search(showdownRegex) >= 0
 
 // Determine which hands won at showdown
 function getWinningHands(allHands){

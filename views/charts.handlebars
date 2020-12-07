@@ -12,10 +12,10 @@
     var i
     for (i = 0; i < netAmountBadges.length; i++) {
       let j = netAmountBadges[i]
-      if (parseInt(j.innerText) > 0) {
+      if (parseFloat(j.innerText) > 0) {
         j.classList.add("positive")
       }
-      else if (parseInt(j.innerText) < 0) {
+      else if (parseFloat(j.innerText) < 0) {
         j.classList.add("negative")
       }
     }

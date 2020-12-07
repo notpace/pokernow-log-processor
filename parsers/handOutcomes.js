@@ -1,11 +1,5 @@
-module.exports.getParsedHandOutcomes = getParsedHandOutcomes
-
-function getParsedHandOutcomes(data){
-  return getHandOutcomesChartData(getHandOutcomes(data))
-}
-
 // Set up for hand outcome searches
-const showdownRegex = /.*collected (\d*) from pot with ([\w\s]*)[,(].*/
+const showdownRegex = /.*collected (\d*(?:\.\d\d)?) from pot with ([\w\s]*)[,(].*/
 const showdown = (row) => row.entry.search(showdownRegex) >= 0
 const riverRegex = /river: .*/
 const river = (row) => row.entry.search(riverRegex) >= 0
@@ -13,6 +7,12 @@ const turnRegex = /turn: .*/
 const turn = (row) => row.entry.search(turnRegex) >= 0
 const flopRegex = /flop: .*/
 const flop = (row) => row.entry.search(flopRegex) >= 0
+
+module.exports.getParsedHandOutcomes = getParsedHandOutcomes
+
+function getParsedHandOutcomes(data){
+  return getHandOutcomesChartData(getHandOutcomes(data))
+}
   
 // Determine where action ended on each hand
 function getHandOutcomes(allHands){

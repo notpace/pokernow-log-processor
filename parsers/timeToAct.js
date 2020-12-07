@@ -1,12 +1,12 @@
+// Set up regexes for filtering actions
+const actionRegex = /^"([\w\s]*)\s@\s[\d\w]*"\s(\bchecks\b|\bbets\b|\bcalls\b|\braises\b|\bfolds\b)/
+const handBeginRegex = /-- starting hand #(\d*).*/
+
 module.exports.getParsedTimeToAct = getParsedTimeToAct
 
 function getParsedTimeToAct(data){
   return getTimeToActStats(getActionData(data))
 }
- 
-// Set up regexes for filtering actions
-const actionRegex = /^"([\w\s]*)\s@\s[\d\w]*"\s(\bchecks\b|\bbets\b|\bcalls\b|\braises\b|\bfolds\b)/
-const handBeginRegex = /-- starting hand #(\d*).*/
 
 // Filter out all non-action entries and calculate time since last action
 function getActionData(allHands){
