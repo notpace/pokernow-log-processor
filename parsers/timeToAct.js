@@ -34,11 +34,6 @@ function getActionData(allHands){
   return allActions
 }
 
-// Helper function to get total action time
-function addActionTime(runningTotal,actionTime){
-  return runningTotal + actionTime
-}
-
 // Calculate averge time to act for each player
 function getTimeToActStats(allActions){
   let players = []
