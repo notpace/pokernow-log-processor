@@ -1,7 +1,6 @@
 /*
 This code makes a bunch of assumptions that (if violated) will definitely break things:
 * All log files are complete (beginning to end of game, no mid-hand exports)
-* Bet values are integers, not currency
 * Player names (not IDs) are used to identify people and must stay consistent for the game
 * The game played is Texas Hold'em (may also work for short-deck hold'em)
 */
