@@ -1,5 +1,5 @@
 // Set up regexes for filtering actions
-const actionRegex = /^"([\w\s]*)\s@\s[\d\w]*"\s(\bchecks\b|\bbets\b|\bcalls\b|\braises\b|\bfolds\b)/
+const actionRegex = /^"(.*) @ .*" (\bchecks\b|\bbets\b|\bcalls\b|\braises\b|\bfolds\b)/
 const handBeginRegex = /-- starting hand #(\d*).*/
 
 module.exports.getParsedTimeToAct = getParsedTimeToAct

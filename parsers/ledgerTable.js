@@ -1,6 +1,6 @@
-const quitRegex = /The player "([\w\s]*) @ [\d\w]*" quits the game with a stack of (\d*(?:\.\d\d)?)/
-const createRegex = /The player "([\w\s]*) @ [\d\w]*" created the game with a stack of (\d*(?:\.\d\d)?)/
-const adminRegex = /The admin approved the player "([\w\s]*) @ [\d\w]*" participation with a stack of (\d*(?:\.\d\d)?)/
+const quitRegex = /^The player "(.*) @ .*" quits the game with a stack of (\d*(?:\.\d\d)?)/
+const createRegex = /^The player "(.*) @ .*" created the game with a stack of (\d*(?:\.\d\d)?)/
+const adminRegex = /^The admin approved the player "(.*) @ .*" participation with a stack of (\d*(?:\.\d\d)?)/
 const centsBuyinRegex = /participation with a stack of (\d*\.\d\d)/
 const cents = (row) => row.entry.search(centsBuyinRegex) >= 0
 
