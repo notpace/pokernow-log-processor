@@ -1,38 +1,4 @@
-const ledgerTableParser = require('./ledgerTable.js')
-const stackSizeParser = require('./stackSizes.js')
-const handOutcomesParser = require('./handOutcomes.js')
-const winningHandsParser = require('./winningHands.js')
-const timeToActParser = require('./timeToAct.js')
-
-module.exports.ledgerTable = ledgerTable
-module.exports.stackSizes = stackSizes
-module.exports.handOutcomes = handOutcomes
-module.exports.winningHands = winningHands
-module.exports.timeToAct = timeToAct
-
-function ledgerTable(data){
-  return ledgerTableParser.getParsedLedgerTable(data)
-}
-
-function stackSizes(data){
-  let sortedData = sortByOrder(orderToInt(data));
-  return stackSizeParser.getParsedStackSizes(sortedData)
-}
-
-function handOutcomes(data){
-  let allHands = getHands(sortByOrder(orderToInt(data)))
-  return handOutcomesParser.getParsedHandOutcomes(allHands)
-}
-
-function winningHands(data){
-  let allHands = getHands(sortByOrder(orderToInt(data)))
-  return winningHandsParser.getParsedWinningHands(allHands)
-}
-
-function timeToAct(data){
-  let allHands = getHands(sortByOrder(orderToInt(data)))
-  return timeToActParser.getParsedTimeToAct(allHands)
-}
+module.exports.parsePokerGame = parsePokerGame
 
 //Parsing Cleanup
 function orderToInt(data){
@@ -47,44 +13,287 @@ function sortByOrder(data){
   })
 }
 
-// Get total number of hands
-function getTotalHands(logFile){
-  const endHandRegex = /-- ending hand #(\d*) --/
-  let endingHands = logFile.filter(row => row.entry.search(endHandRegex) >= 0)
-  return endingHands.length
-}
+// Admin action regexes
+const createGameRegex = /^The player "(.*) @ (.*)" created the game with a stack of (\d*(?:\.\d\d)?)/
+const adminApprovedRegex = /^The admin approved the player "(.*) @ (.*)" participation with a stack of (\d*(?:\.\d\d)?)/
+const seatRequestRegex = /^The player "(.*) @ (.*)" requested a seat./
+const playerJoinRegex = /^The player "(.*) @ (.*)" joined the game with a stack of (\d*(?:\.\d\d)?)/
+const playerQuitRegex = /^The player "(.*) @ (.*)" quits the game with a stack of (\d*(?:\.\d\d)?)/
+const sitStandRegex = /^The player "(.*) @ (.*)" (\w*)\s\w* with the stack of (\d*(?:\.\d\d)?)/
 
-// Filter admin actions
-function handsOnly(logFile){
-  const adminRegex = /(The admin|The player|Your hand).*/
-  return logFile.filter(row => row.entry.search(adminRegex) < 0)
-}
+// Hand regexes
+const beginHandRegex = /^-- starting hand #(\d*).*/
+const yourHandRegex = /^Your hand is (.*)/
+const blindRegex = /^"(.*) @ (.*)" posts a (?:\bmissed\b\s|\bmissing\b\s)?(\bbig\b|\bsmall\b) blind of (\d*(?:\.\d\d)?)/
+const actionRegex = /^"(.*) @ (.*)" (\bchecks\b|\bbets\b|\bcalls\b|\braises\b|\bfolds\b)(?: (\d*(?:\.\d\d)?))*/
+const showRegex = /^"(.*) @ (.*)" shows a (.*)\./
+const uncalledBetRegex = /^Uncalled bet of (\d*(?:\.\d\d)?) returned to "(.*) @ (.*)"/
+const collectedRegex = /^"(.*) @ (.*)" collected (\d*(?:\.\d\d)?) from pot(?: with (\w\s\bHigh\b|.*,.*) \(combination\: (.*)\))?/
+const cardsRegex = /^(\bflop\b|\bturn\b|\briver\b): (.*)/
+const rabbitHuntRegex = /^Undealt cards: (.*)/
+const endHandRegex = /^-- ending hand #(\d*) --/
 
-// Separate all the hands
-function getHands(logFile){
-  // Create an empty array of hand objects
-  let totalHands = getTotalHands(logFile)
-  handsData = Array.apply(null, Array(totalHands))
-  let i = 0
-  for (i = 0; i < totalHands; i++) {
-    handsData[i] = {hand: i+1, entries: []}
+// Stack regex
+const stacksRegex = /^Player stacks: (.*)/
+const playerStackRegex = /"(.*) @ (.*)" \((\d*(?:\.\d\d)?)\)/
+
+// String of cards to an array of cards
+function cardArray(cardString){
+  if (cardString){
+    return cardString.replace(/[\,\[\]]/g,'').trim().split(' ')
   }
-  // Iterate through hands to populate the empty array
-  const handBeginRegex = /-- starting hand #(\d*).*/
-  let hand = 0
-  handsOnly(logFile).forEach(function(row){
-    if (row.entry.search(handBeginRegex) >= 0) {
-      hand += 1
+  else return null
+}
+
+// Create the fully parsed pokerGame object
+function parsePokerGame(data){
+  let players = []
+  let hands = []
+  let stacks = []
+  let adminActions = []
+  let unparsedLogEntries = []
+  let handNumber = 0
+  let useCents = false
+  let sortedData = sortByOrder(orderToInt(data));
+  sortedData.forEach(function(row){
+    // Admin actions
+    if (createGameRegex.test(row.entry)){
+      adminActions.push({
+        action: 'createGame',
+        player: row.entry.match(createGameRegex)[1],
+        playerId: row.entry.match(createGameRegex)[2],
+        amount: parseFloat(row.entry.match(createGameRegex)[3]),
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
     }
-    handsData.forEach(function(obj){
-      if (obj.hand === hand) {
-        obj.entries.push({
-          order: row.order,
-          at: row.at,
-          entry: row.entry
-        })
+    else if (adminApprovedRegex.test(row.entry)){
+      adminActions.push({
+        action: 'adminApproved',
+        player: row.entry.match(adminApprovedRegex)[1],
+        playerId: row.entry.match(adminApprovedRegex)[2],
+        amount: parseFloat(row.entry.match(adminApprovedRegex)[3]),
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+      // Not ideal to keep setting this for each player, but it works
+      if ((/(\d*\.\d\d)/).test(row.entry.match(adminApprovedRegex)[3])){
+        useCents = true
       }
-    })
+    }
+    else if (seatRequestRegex.test(row.entry)){
+      adminActions.push({
+        action: 'seatRequest',
+        player: row.entry.match(seatRequestRegex)[1],
+        playerId: row.entry.match(seatRequestRegex)[2],
+        amount: null,
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    else if (playerJoinRegex.test(row.entry)){
+      adminActions.push({
+        action: 'playerJoin',
+        player: row.entry.match(playerJoinRegex)[1],
+        playerId: row.entry.match(playerJoinRegex)[2],
+        amount: parseFloat(row.entry.match(playerJoinRegex)[3]),
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    else if (playerQuitRegex.test(row.entry)){
+      adminActions.push({
+        action: 'playerQuit',
+        player: row.entry.match(playerQuitRegex)[1],
+        playerId: row.entry.match(playerQuitRegex)[2],
+        amount: parseFloat(row.entry.match(playerQuitRegex)[3]),
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    else if (sitStandRegex.test(row.entry)){
+      adminActions.push({
+        action: row.entry.match(sitStandRegex)[3],
+        player: row.entry.match(sitStandRegex)[1],
+        playerId: row.entry.match(sitStandRegex)[2],
+        amount: parseFloat(row.entry.match(sitStandRegex)[4]),
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    // Hands
+    else if (beginHandRegex.test(row.entry)){
+      handNumber += 1
+      hands.push({
+        handNumber: handNumber,
+        player: null,
+        playerId: null,
+        action: 'beginHand',
+        cards: null,
+        amount: null,
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    else if (yourHandRegex.test(row.entry)){
+      hands.push({
+        handNumber: handNumber,
+        player: null,
+        playerId: null,
+        action: 'yourHand',
+        cards: row.entry.match(yourHandRegex)[1],
+        amount: null,
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    else if (blindRegex.test(row.entry)){
+      hands.push({
+        handNumber: handNumber,
+        player: row.entry.match(blindRegex)[1],
+        playerId: row.entry.match(blindRegex)[2],
+        action: row.entry.match(blindRegex)[3] + 'Blind',
+        cards: null,
+        amount: parseFloat(row.entry.match(blindRegex)[4]),
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    else if (actionRegex.test(row.entry)){
+      hands.push({
+        handNumber: handNumber,
+        player: row.entry.match(actionRegex)[1],
+        playerId: row.entry.match(actionRegex)[2],
+        action: row.entry.match(actionRegex)[3],
+        cards: null,
+        amount: parseFloat(row.entry.match(actionRegex)[4]) || null,
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    else if (collectedRegex.test(row.entry)){
+      hands.push({
+        handNumber: handNumber,
+        player: row.entry.match(collectedRegex)[1],
+        playerId: row.entry.match(collectedRegex)[2],
+        action: 'collected',
+        cards: cardArray(row.entry.match(collectedRegex)[5]) || null,
+        amount: parseFloat(row.entry.match(collectedRegex)[3]),
+        winningHand: row.entry.match(collectedRegex)[4] || null,
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    else if (uncalledBetRegex.test(row.entry)){
+      hands.push({
+        handNumber: handNumber,
+        player: row.entry.match(uncalledBetRegex)[2],
+        playerId: row.entry.match(uncalledBetRegex)[3],
+        action: 'uncalledBetReturned',
+        cards: null,
+        amount: parseFloat(row.entry.match(uncalledBetRegex)[1]),
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    else if (showRegex.test(row.entry)){
+      hands.push({
+        handNumber: handNumber,
+        player: row.entry.match(showRegex)[1],
+        playerId: row.entry.match(showRegex)[2],
+        action: 'show',
+        cards: cardArray(row.entry.match(showRegex)[3]),
+        amount: null,
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    else if (rabbitHuntRegex.test(row.entry)){
+      hands.push({
+        handNumber: handNumber,
+        player: null,
+        playerId: null,
+        action: 'rabbitHunt',
+        cards: cardArray(row.entry.match(rabbitHuntRegex)[1]),
+        amount: null,
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    else if (endHandRegex.test(row.entry)){
+      hands.push({
+        handNumber: handNumber,
+        player: null,
+        playerId: null,
+        action: 'endHand',
+        cards: null,
+        amount: null,
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    // Cards dealt in the hands
+    else if (cardsRegex.test(row.entry)){
+      hands.push({
+        handNumber: handNumber,
+        player: null,
+        playerId: null,
+        action: row.entry.match(cardsRegex)[1],
+        cards: cardArray(row.entry.match(cardsRegex)[2]),
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    // Stack sizes
+    else if (stacksRegex.test(row.entry)){
+      let stackSizes = []
+      let splitStacks = row.entry.replace("Player stacks: ","").split(" | ")
+      splitStacks.forEach(function(stack){
+        stackSizes.push({
+          player: stack.match(playerStackRegex)[1],
+          playerId: stack.match(playerStackRegex)[2],
+          stackSize: parseFloat(stack.match(playerStackRegex)[3])
+        })
+      })
+      stacks.push({
+        handNumber: handNumber,
+        stackSizes: stackSizes,
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    else unparsedLogEntries.push(row)
   })
-  return handsData
+  // Get list of players
+  hands.forEach(function(row){
+    if (row.player && !players.some(i => i == row.player)){
+      players.push(row.player)
+    }
+  })
+  return {
+    players: players,
+    numberOfHands: handNumber,
+    useCents: useCents,
+    hands: hands,
+    stacks: stacks,
+    adminActions: adminActions,
+    unparsedLogEntries: unparsedLogEntries
+  }
 }

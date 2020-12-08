@@ -11,6 +11,11 @@ const multer = require('multer')
 const fs = require('fs'); 
 const parse = require('csv-parse');
 const pokerParse = require('./parsers/parse.js');
+const stackSizes = require('./parsers/stackSizes.js');
+const handOutcomes = require('./parsers/handOutcomes.js');
+const winningHands = require('./parsers/winningHands.js');
+const ledgerTable = require('./parsers/ledgerTable.js');
+const timeToAct = require('./parsers/timeToAct.js');
 
 const upload = multer({ dest: 'uploads/' })
 
@@ -31,12 +36,13 @@ app.post('/upload', upload.single('logfile'), function (req, res, next) {
       data.push(r);        
     })
     .on('end', () => {
+      let pokerGame = pokerParse.parsePokerGame(data)
       res.render('charts', {
-        stackSizes: JSON.stringify(pokerParse.stackSizes(data)),
-        handOutcomes: JSON.stringify(pokerParse.handOutcomes(data)),
-        winningHands: JSON.stringify(pokerParse.winningHands(data)),
-        ledgerTable: pokerParse.ledgerTable(data),
-        timeToAct: pokerParse.timeToAct(data)
+        stackSizes: JSON.stringify(stackSizes.parse(pokerGame)),
+        handOutcomes: JSON.stringify(handOutcomes.parse(pokerGame)),
+        winningHands: JSON.stringify(winningHands.parse(pokerGame)),
+        ledgerTable: ledgerTable.parse(pokerGame),
+        timeToAct: timeToAct.parse(pokerGame)
       })
       fs.unlink(req.file.path, function (err) {
         if (err) throw err;
