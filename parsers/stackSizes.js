@@ -11,7 +11,10 @@ function parseStackSizes(pokerGame){
     hands.forEach(function(hand){
       stacks = pokerGame.stacks.filter(i => i.handNumber == hand)[0].stackSizes
       if (stacks.some(i => i.player == player)){
-        playerStackSizes.push(stacks.filter(i => i.player == player)[0].stackSize)
+        playerStackSizes.push({
+          x: hand,
+          y: stacks.filter(i => i.player == player)[0].stackSize
+        })
       }
       else playerStackSizes.push(null)
     })
@@ -26,6 +29,7 @@ function parseStackSizes(pokerGame){
       borderWidth: 2
     })
   })
+  let chartMax = pokerGame.numberOfHands + 10 - (pokerGame.numberOfHands + 10) % 20
   return {
     type: 'line',
     data: {
@@ -52,6 +56,7 @@ function parseStackSizes(pokerGame){
           }
         }],
         xAxes: [{
+          type: 'linear',
           scaleLabel: {
             display: false,
             labelString: 'HAND NUMBER',
@@ -59,7 +64,9 @@ function parseStackSizes(pokerGame){
             fontFamily: "Roboto, sans-serif"
           },
           ticks: {
-            maxTicksLimit: 10,
+            min: 0,
+            max: chartMax,
+            stepSize: 20,
             fontSize: 18
           }
         }]
