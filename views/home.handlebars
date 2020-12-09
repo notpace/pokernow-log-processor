@@ -3,9 +3,9 @@
 <form method="POST" action="/upload" enctype="multipart/form-data">
 
   <div class="container-md">
-    <div class="input-group mb-3">
+    <div class="input-group input-group-lg mb-3">
       <div class="custom-file">
-        <input type="file" class="custom-file-input" id="upload" name="logfile" onchange="document.getElementById('file_upload_label').innerText = document.getElementById('upload').files[0].name">
+        <input type="file" required class="custom-file-input" id="upload" name="logfile" onchange="document.getElementById('file_upload_label').innerText = document.getElementById('upload').files[0].name">
         <label class="custom-file-label" id="file_upload_label" for="upload" aria-describedby="upload_button">Choose a Poker Now log file</label>
       </div>
     </div>
@@ -14,36 +14,38 @@
 
 </form>
 
-<div class="row feature-cards">
-  <div class="col-sm-12 col-md-6 col-lg-3">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Stack Sizes</h5>
-        <p class="card-text">See how your stack compared to other players from the first hand to the last.</p>
+<div class="container-lg">
+  <div class="row feature-cards">
+    <div class="col-sm-12 col-md-6 col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Stack Sizes</h5>
+          <p class="card-text">See how your stack compared to other players throughout the game.</p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-sm-12 col-md-6 col-lg-3">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">End of Action</h5>
-        <p class="card-text">Do most of your hands end before the flop or go all the way to showdown?</p>
+    <div class="col-sm-12 col-md-6 col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">End of Action</h5>
+          <p class="card-text">Did most of your hands end before the flop or go all the way to showdown?</p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-sm-12 col-md-6 col-lg-3">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Winning Hands</h5>
-        <p class="card-text">How often are people eking out a win with a high card or dominating with full houses?</p>
+    <div class="col-sm-12 col-md-6 col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Winning Hands</h5>
+          <p class="card-text">How often were people eking out high card wins or dominating with full houses?</p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-sm-12 col-md-6 col-lg-3">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Time to Act</h5>
-        <p class="card-text">Get some real data to shame the person that always takes forever to bet.</p>
+    <div class="col-sm-12 col-md-6 col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Time to Act</h5>
+          <p class="card-text">Get some real data to shame the person that always takes forever to bet.</p>
+        </div>
       </div>
     </div>
   </div>

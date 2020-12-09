@@ -61,6 +61,8 @@ h2 {
 
 .feature-cards .card {
   margin-top: 1rem;
+  box-shadow: 0 0 6px #CCC;
+  border-radius: 9px;
 }
 
 .netAmount {
