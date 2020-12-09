@@ -11,7 +11,8 @@ function parseWinningHands(pokerGame){
     if (highCardRegex.test(winningHand.winningHand)){
       winningHand = 'High Card'
     }
-    else {winningHand = winningHand.winningHand.split(', ')[0]}
+    // Kludge to fix Pair/One Pair discrepancy between logs for Omaha and Hold'em
+    else {winningHand = winningHand.winningHand.replace('One ','').split(', ')[0]}
     winningHandLabels.forEach(function(v,i){
       if (v == winningHand){
         winningHandCounts[i] += 1

@@ -42,7 +42,8 @@ app.post('/upload', upload.single('logfile'), function (req, res, next) {
         handOutcomes: JSON.stringify(handOutcomes.parse(pokerGame)),
         winningHands: JSON.stringify(winningHands.parse(pokerGame)),
         ledgerTable: ledgerTable.parse(pokerGame),
-        timeToAct: timeToAct.parse(pokerGame)
+        timeToAct: timeToAct.parse(pokerGame),
+        pokerGame: JSON.stringify(pokerGame)
       })
       fs.unlink(req.file.path, function (err) {
         if (err) throw err;

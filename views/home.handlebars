@@ -14,19 +14,64 @@
 
 </form>
 
+<div class="row feature-cards">
+  <div class="col-sm-12 col-md-6 col-lg-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Stack Sizes</h5>
+        <p class="card-text">See how your stack compared to other players from the first hand to the last.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">End of Action</h5>
+        <p class="card-text">Do most of your hands end before the flop or go all the way to showdown?</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Winning Hands</h5>
+        <p class="card-text">How often are people eking out a win with a high card or dominating with full houses?</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Time to Act</h5>
+        <p class="card-text">Get some real data to shame the person that always takes forever to bet.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <h2>Wait...What is this?</h2>
 
 <div class="container-xl">
   <div class="row">
-    <div class="card col-md-4 col-sm">
+    {{!-- <div class="card col-md-4 col-sm">
       <ol class="list-group list-group-flush">
         <li class="list-group-item">1. Upload your <a href="https://pokernow.club">PokerNow</a> log file</li>
         <li class="list-group-item">2. Enjoy some pretty charts</li>
         <li class="list-group-item">3. Get back to playing poker</li>
       </ol>
+    </div> --}}
+    <div class="col-lg">
+      <p>This is a quick-and-dirty app that takes your <a href="https://pokernow.club">PokerNow</a> log files and turns them into some pretty charts and graphs. All data is deleted as soon as it is processed (seriously - check the <a href="https://github.com/notpace/pokernow-log-processor">source code</a> if you want to).</p>
+      <p>If something doesn't look right, please <a href='https://github.com/notpace/pokernow-log-processor/issues' target="_blank">file an issue on github</a>.</p>
     </div>
-    <div class="col-md-8 col-sm">
-      This is a quick-and-dirty app that takes your <a href="https://pokernow.club">PokerNow</a> log files and turns them into some pretty charts and graphs. All data is deleted as soon as it is processed (seriously - check the <a href="https://github.com/notpace/pokernow-log-processor">source code</a> if you want to).
+    <div class='container-xl'>
+       <div class="alert alert-warning" role="alert" style="margin-top:1rem">
+        For everything to work properly, the following things should be true:
+        <ul style="margin-bottom:0">
+          <li>Upload the logfile of your <strong>complete</strong> game, including all the players standing up from the table</li>
+          <li>The "use cents values" setting should work, but only if it is consistent through the whole game (before anyone buys in and sits down)</li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

@@ -28,7 +28,7 @@ const blindRegex = /^"(.*) @ (.*)" posts a (?:\bmissed\b\s|\bmissing\b\s)?(\bbig
 const actionRegex = /^"(.*) @ (.*)" (\bchecks\b|\bbets\b|\bcalls\b|\braises\b|\bfolds\b)(?: (\d*(?:\.\d\d)?))*/
 const showRegex = /^"(.*) @ (.*)" shows a (.*)\./
 const uncalledBetRegex = /^Uncalled bet of (\d*(?:\.\d\d)?) returned to "(.*) @ (.*)"/
-const collectedRegex = /^"(.*) @ (.*)" collected (\d*(?:\.\d\d)?) from pot(?: with (\w\s\bHigh\b|.*,.*) \(combination\: (.*)\))?/
+const collectedRegex = /^"(.*) @ (.*)" collected (\d*(?:\.\d\d)?) from pot(?: with (\w\s\bHigh\b|.*,?.*) \(combination\: (.*)\))?/
 const cardsRegex = /^(\bflop\b|\bturn\b|\briver\b): (.*)/
 const rabbitHuntRegex = /^Undealt cards: (.*)/
 const endHandRegex = /^-- ending hand #(\d*) --/
@@ -148,7 +148,7 @@ function parsePokerGame(data){
         player: null,
         playerId: null,
         action: 'yourHand',
-        cards: row.entry.match(yourHandRegex)[1],
+        cards: cardArray(row.entry.match(yourHandRegex)[1]),
         amount: null,
         at: row.at,
         order: row.order,

@@ -6,7 +6,8 @@ function parseHandOutcomes(pokerGame){
   outcomeSums = new Array(outcomeLabels.length).fill(0)
   hands.forEach(function(hand){
     handActions = pokerGame.hands.filter(i => i.handNumber == hand)
-    if (handActions.filter(i => i.action == 'collected' && i.cards).length == 1){
+    // Showdown check must be >= 1 to capture split pots
+    if (handActions.filter(i => i.action == 'collected' && i.cards).length >= 1){
       outcomeSums[4] += 1
     }
     else if (handActions.filter(i => i.action == 'river').length == 1){

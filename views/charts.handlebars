@@ -19,6 +19,8 @@
         j.classList.add("negative")
       }
     }
+    // Add pokerGame object to window for debugging
+    window.pokerGame = {{{pokerGame}}}
   }
 </script>
 
@@ -35,6 +37,28 @@
 <h2>Winning Hands at Showdown</h2>
 <div class="container">
   <canvas id="winningHands"></canvas>
+</div>
+
+<h2>Time To Act</h2>
+<div class="container-sm">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th class="left-align">Average Time To Act (seconds)</th>
+        <th class="left-align">Maximum Time to Act (seconds)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each timeToAct}}
+      <tr>
+        <td>{{player}}</td>
+        <td class="left-align">{{averageTimeToAct}}</td>
+        <td class="left-align">{{maxTimeToAct}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </div>
 
 <h2>Game Ledger</h2>
@@ -59,28 +83,6 @@
             {{net}}
           </span>
         </td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-<h2>Time To Act</h2>
-<div class="container-sm">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Player</th>
-        <th class="left-align">Average Time To Act (seconds)</th>
-        <th class="left-align">Maximum Time to Act (seconds)</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each timeToAct}}
-      <tr>
-        <td>{{player}}</td>
-        <td class="left-align">{{averageTimeToAct}}</td>
-        <td class="left-align">{{maxTimeToAct}}</td>
       </tr>
       {{/each}}
     </tbody>

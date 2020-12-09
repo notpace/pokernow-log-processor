@@ -59,6 +59,10 @@ h2 {
   overflow: hidden;
 }
 
+.feature-cards .card {
+  margin-top: 1rem;
+}
+
 .netAmount {
   font-weight: bold;
 }
