@@ -45,16 +45,56 @@
     <thead>
       <tr>
         <th>Player</th>
-        <th class="left-align">Average Time To Act (seconds)</th>
-        <th class="left-align">Maximum Time to Act (seconds)</th>
+        <th class="text-right">Average Time To Act (seconds)</th>
+        <th class="text-right">Maximum Time to Act (seconds)</th>
       </tr>
     </thead>
     <tbody>
       {{#each timeToAct}}
       <tr>
         <td>{{player}}</td>
-        <td class="left-align">{{averageTimeToAct}}</td>
-        <td class="left-align">{{maxTimeToAct}}</td>
+        <td class="text-right">{{averageTimeToAct}}</td>
+        <td class="text-right">{{maxTimeToAct}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+<h2>Top 10 Pots</h2>
+<div class="container-sm">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Winner</th>
+        <th class="text-right">Hand</th>
+        <th class="text-right">Winnings</th>
+        <th>Winning Hand</th>
+        <th class="text-center">Cards</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each biggestPots}}
+      <tr>
+        <td>{{player}}</td>
+        <td class="text-right">{{handNumber}}</td>
+        <td class="text-right">{{amount}}</td>
+        <td>
+          {{#if winningHand}}
+            {{winningHand}}
+            {{else}}
+            <em>Unknown</em>
+          {{/if}}
+        </td>
+        <td class="text-center">
+          {{#if cards}}
+            {{#each cards}}
+              <div class='playingCard {{suit}}'>{{card}}</div>
+            {{/each}}
+            {{else}}
+            <em>Not shown</em>
+          {{/if}}
+        </td>
       </tr>
       {{/each}}
     </tbody>
@@ -67,18 +107,18 @@
     <thead>
       <tr>
         <th>Player</th>
-        <th class="left-align">Buy-ins</th>
-        <th class="left-align">Cash-outs</th>
-        <th class="left-align">Net</th>
+        <th class="text-right">Buy-ins</th>
+        <th class="text-right">Cash-outs</th>
+        <th class="text-right">Net</th>
       </tr>
     </thead>
     <tbody>
       {{#each ledgerTable}}
       <tr>
         <td>{{player}}</td>
-        <td class="left-align">{{buyins}}</td>
-        <td class="left-align">{{cashouts}}</td>
-        <td class="left-align">
+        <td class="text-right">{{buyins}}</td>
+        <td class="text-right">{{cashouts}}</td>
+        <td class="text-right">
           <span class="netAmount">
             {{net}}
           </span>
@@ -87,4 +127,13 @@
       {{/each}}
     </tbody>
   </table>
+</div>
+<div class='container-xl'>
+    <div class="alert alert-warning" role="alert" style="margin-top:1rem">
+    If the game ledger doesn't match the one on PokerNow, make sure you have done the following:
+    <ul style="margin-bottom:0">
+      <li>Upload the logfile of your <strong>complete</strong> game, including all the players standing up from the table</li>
+      <li>Set the "use cents values" <strong>before</strong> anyone buys in and sits down</li>
+    </ul>
+  </div>
 </div>

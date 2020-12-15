@@ -15,6 +15,7 @@ const stackSizes = require('./parsers/stackSizes.js');
 const handOutcomes = require('./parsers/handOutcomes.js');
 const winningHands = require('./parsers/winningHands.js');
 const ledgerTable = require('./parsers/ledgerTable.js');
+const biggestPots = require('./parsers/biggestPots.js');
 const timeToAct = require('./parsers/timeToAct.js');
 
 const upload = multer({ dest: 'uploads/' })
@@ -42,6 +43,7 @@ app.post('/upload', upload.single('logfile'), function (req, res, next) {
         handOutcomes: JSON.stringify(handOutcomes.parse(pokerGame)),
         winningHands: JSON.stringify(winningHands.parse(pokerGame)),
         ledgerTable: ledgerTable.parse(pokerGame),
+        biggestPots: biggestPots.parse(pokerGame),
         timeToAct: timeToAct.parse(pokerGame),
         pokerGame: JSON.stringify(pokerGame)
       })

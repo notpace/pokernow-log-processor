@@ -65,6 +65,29 @@ h2 {
   border-radius: 9px;
 }
 
+.playingCard {
+  width: 2rem;
+  display: inline-block;
+  border-radius: 5px;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 0 3px #666;
+  margin: 0 3px;
+  font-weight: bold;
+}
+
+.diamonds {
+  color: blue;
+}
+
+.hearts {
+  color: red;
+}
+
+.clubs {
+  color: green;
+}
+
 .netAmount {
   font-weight: bold;
 }
@@ -75,10 +98,6 @@ h2 {
 
 .netAmount.negative {
   color: red;
-}
-
-.table .left-align {
-  text-align: right;
 }
 
 footer {
