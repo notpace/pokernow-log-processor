@@ -29,7 +29,7 @@ const actionRegex = /^"(.*) @ (.*)" (\bchecks\b|\bbets\b|\bcalls\b|\braises\b|\b
 const showRegex = /^"(.*) @ (.*)" shows a (.*)\./
 const uncalledBetRegex = /^Uncalled bet of (\d*(?:\.\d\d)?) returned to "(.*) @ (.*)"/
 const collectedRegex = /^"(.*) @ (.*)" collected (\d*(?:\.\d\d)?) from pot(?: with (\w\s\bHigh\b|.*,?.*) \(combination\: (.*)\))?/
-const cardsRegex = /^(\bflop\b|\bturn\b|\briver\b): (.*)/
+const cardsRegex = /^(\b[fF]lop\b|\b[tT]urn\b|\b[rR]iver\b): (.*)/
 const rabbitHuntRegex = /^Undealt cards: (.*)/
 const endHandRegex = /^-- ending hand #(\d*) --/
 
@@ -253,7 +253,7 @@ function parsePokerGame(data){
         handNumber: handNumber,
         player: null,
         playerId: null,
-        action: row.entry.match(cardsRegex)[1],
+        action: row.entry.match(cardsRegex)[1].toLowerCase(),
         cards: cardArray(row.entry.match(cardsRegex)[2]),
         at: row.at,
         order: row.order,
