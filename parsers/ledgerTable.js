@@ -9,8 +9,13 @@ function parseLedger(pokerGame){
     let playerCashoutsAmount = playerCashouts.reduce((acc,cur) => acc + cur.amount, 0)
     let playerBuyins = buyins.filter(i => i.player == player)
     let playerBuyinsAmount = playerBuyins.reduce((acc,cur) => acc + cur.amount, 0)
+    let playerWins = pokerGame.hands.filter(i => i.player == player && i.action == 'collected')
+    let potsWon = playerWins.length
+    let averagePotWin = playerWins.reduce((a,c) => a + c.amount, 0)/potsWon
     ledgerTable.push({
       player: player,
+      potsWon: potsWon,
+      averagePotWin: averagePotWin.toFixed(2),
       buyins: playerBuyinsAmount,
       cashouts: playerCashoutsAmount,
       net: playerCashoutsAmount - playerBuyinsAmount

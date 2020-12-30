@@ -62,7 +62,7 @@
 </div>
 
 <h2>Top 10 Pots</h2>
-<div class="container-sm">
+<div class="container-xl">
   <table class="table table-striped">
     <thead>
       <tr>
@@ -102,11 +102,13 @@
 </div>
 
 <h2>Game Ledger</h2>
-<div class="container-sm">
+<div class="container-xl">
   <table class="table table-striped">
     <thead>
       <tr>
         <th>Player</th>
+        <th class="text-right">Pots Won</th>
+        <th class="text-right">Average Pot Win</th>
         <th class="text-right">Buy-ins</th>
         <th class="text-right">Cash-outs</th>
         <th class="text-right">Net</th>
@@ -116,6 +118,8 @@
       {{#each ledgerTable}}
       <tr>
         <td>{{player}}</td>
+        <td class="text-right">{{potsWon}}</td>
+        <td class="text-right">{{averagePotWin}}</td>
         <td class="text-right">{{buyins}}</td>
         <td class="text-right">{{cashouts}}</td>
         <td class="text-right">
