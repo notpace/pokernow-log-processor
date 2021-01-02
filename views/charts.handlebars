@@ -9,8 +9,7 @@
     let winningHands = new Chart(ctxWinningHands, {{{winningHands}}})
     // Add styling to ledger table
     let netAmountBadges = document.getElementsByClassName('netAmount')
-    var i
-    for (i = 0; i < netAmountBadges.length; i++) {
+    for (let i = 0; i < netAmountBadges.length; i++) {
       let j = netAmountBadges[i]
       if (parseFloat(j.innerText) > 0) {
         j.classList.add("positive")
@@ -21,6 +20,32 @@
     }
     // Add pokerGame object to window for debugging
     window.pokerGame = {{{pokerGame}}}
+    // Setup for hand review feature
+    let pokerGame = window.pokerGame
+    let numberOfHands = pokerGame.numberOfHands
+    reviewHandSelect = document.getElementById("reviewHand");
+    // Populate select control with all the hands
+    for (let h = 1; h <= numberOfHands; h++){
+      let option = document.createElement("option");
+      option.text = h;
+      reviewHandSelect.add(option)
+    }
+    // On select, clear any existing hand lines and add new lines for the hand
+    function reviewHand(handNumber){
+      reviewHandLines = document.getElementById("reviewHandLines")
+      while (reviewHandLines.firstChild) {
+        reviewHandLines.firstChild.remove()
+      }
+      let handLines = pokerGame.hands.filter(i => i.handNumber == handNumber && i.action != 'yourHand')
+      handLines.forEach(function(handLine){
+        let li = document.createElement('li');
+        li.textContent = handLine.originalEntry;
+        document.getElementById("reviewHandLines").appendChild(li)
+      })
+    }
+    reviewHandSelect.addEventListener('change', (event) => {
+      reviewHand(reviewHandSelect.value)
+    })
   }
 </script>
 
@@ -140,4 +165,12 @@
       <li>Set the "use cents values" <strong>before</strong> anyone buys in and sits down</li>
     </ul>
   </div>
+</div>
+
+<h2>Hand Review</h2>
+<div class="container-xl">
+  <select id="reviewHand" class="custom-select custom-select-lg mb-2">
+    <option selected>Choose a hand to review</option>
+  </select>
+  <ol id="reviewHandLines"></ol>
 </div>

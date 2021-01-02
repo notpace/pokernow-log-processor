@@ -100,6 +100,11 @@ h2 {
   color: red;
 }
 
+#reviewHandLines {
+  list-style: none;
+  padding-left: 0;
+}
+
 footer {
   background-color: #EEE;
 }
