@@ -29,7 +29,7 @@ function parseStackSizes(pokerGame){
       borderWidth: 2
     })
   })
-  let chartMax = pokerGame.numberOfHands + 10 - (pokerGame.numberOfHands + 10) % 20
+  let chartMax = pokerGame.numberOfHands + (20 - (pokerGame.numberOfHands % 20))
   return {
     type: 'line',
     data: {
