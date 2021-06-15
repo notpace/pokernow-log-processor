@@ -4,7 +4,7 @@ const colors = ['EEE','#CCC','#AAA','#888','#666','#444','333','#222','111','#00
 module.exports.parse = parseWinningHands
 
 function parseWinningHands(pokerGame){
-  const highCardRegex = /^[\w\s]High/
+  const highCardRegex = /^(\w*)\sHigh/
   let winningHandCounts = new Array(winningHandLabels.length).fill(0)
   winningHands = pokerGame.hands.filter(i => i.action == 'collected' && i.cards)
   winningHands.forEach(function(winningHand){
