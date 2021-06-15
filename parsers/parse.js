@@ -25,11 +25,12 @@ const sitStandRegex = /^The player "(.*) @ (.*)" (\w*)\s\w* with the stack of (\
 const beginHandRegex = /^-- starting hand #(\d*).*/
 const yourHandRegex = /^Your hand is (.*)/
 const blindRegex = /^"(.*) @ (.*)" posts a (?:\bmissed\b\s|\bmissing\b\s)?(\bbig\b|\bsmall\b) blind of (\d*(?:\.\d\d)?)/
+const straddleRegex = /^"(.*) @ (.*)" posts a straddle of (\d*(?:\.\d\d)?)/
 const actionRegex = /^"(.*) @ (.*)" (\bchecks\b|\bbets\b|\bcalls\b|\braises\b|\bfolds\b)(?: (\d*(?:\.\d\d)?))*/
 const showRegex = /^"(.*) @ (.*)" shows a (.*)\./
 const uncalledBetRegex = /^Uncalled bet of (\d*(?:\.\d\d)?) returned to "(.*) @ (.*)"/
 const collectedRegex = /^"(.*) @ (.*)" collected (\d*(?:\.\d\d)?) from pot(?: with (\w\s\bHigh\b|.*,?.*) \(combination\: (.*)\))?/
-const cardsRegex = /^(\b[fF]lop\b|\b[tT]urn\b|\b[rR]iver\b): (.*)/
+const cardsRegex = /^(\b[fF]lop\b|\b[tT]urn\b|\b[rR]iver\b)[\s\(second run\)]*: (.*)/
 const rabbitHuntRegex = /^Undealt cards: (.*)/
 const endHandRegex = /^-- ending hand #(\d*) --/
 
@@ -150,6 +151,19 @@ function parsePokerGame(data){
         action: 'yourHand',
         cards: cardArray(row.entry.match(yourHandRegex)[1]),
         amount: null,
+        at: row.at,
+        order: row.order,
+        originalEntry: row.entry
+      })
+    }
+    else if (straddleRegex.test(row.entry)){
+      hands.push({
+        handNumber: handNumber,
+        player: row.entry.match(straddleRegex)[1],
+        playerId: row.entry.match(straddleRegex)[2],
+        action: 'Straddle',
+        cards: null,
+        amount: parseFloat(row.entry.match(straddleRegex)[3]),
         at: row.at,
         order: row.order,
         originalEntry: row.entry
