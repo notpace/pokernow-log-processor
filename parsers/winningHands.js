@@ -1,5 +1,6 @@
 const winningHandLabels = ['High Card','Pair','Two Pair','Three of a Kind','Straight','Flush','Full House','Four of a Kind','Straight Flush','Royal Flush']
-const colors = ['green','blue','red','orange','purple','brown','black', 'pink', 'gray']
+const colorsDark = ['rgba(0,129,0,1)','rgba(0,0,255,1)','rgba(255,0,0,1)','rgba(255,165,0,1)','rgba(128,0,128,1)','rgba(139,69,19,1)','rgba(0,0,0,1)', 'rgb(255,20,147,1)', 'rgba(47,79,79,1)']
+const colorsLight = ['rgba(0,129,0,0.5)','rgba(0,0,255,0.5)','rgba(255,0,0,0.5)','rgba(255,165,0,0.5)','rgba(128,0,128,0.5)','rgba(139,69,19,0.5)','rgba(0,0,0,0.5)', 'rgb(255,20,147,0.5)', 'rgba(47,79,79,0.5)']
 
 module.exports.parse = parseWinningHands
 
@@ -25,9 +26,9 @@ function parseWinningHands(pokerGame){
       {
         label: player,
         data: winningHandCounts,
-        backgroundColor: colors[i],
+        backgroundColor: colorsLight[i],
         borderWidth: 1,
-        borderColor: 'white'
+        borderColor: colorsDark[i]
       }
     )
   })

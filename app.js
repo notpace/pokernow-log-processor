@@ -17,6 +17,7 @@ const winningHands = require('./parsers/winningHands.js');
 const ledgerTable = require('./parsers/ledgerTable.js');
 const biggestPots = require('./parsers/biggestPots.js');
 const timeToAct = require('./parsers/timeToAct.js');
+const preflopBehavior = require('./parsers/preflopBehavior.js');
 
 const upload = multer({ dest: 'uploads/' })
 
@@ -45,6 +46,7 @@ app.post('/upload', upload.single('logfile'), function (req, res, next) {
         ledgerTable: ledgerTable.parse(pokerGame),
         biggestPots: biggestPots.parse(pokerGame),
         timeToAct: timeToAct.parse(pokerGame),
+        preflopBehavior: JSON.stringify(preflopBehavior.parse(pokerGame)),
         pokerGame: JSON.stringify(pokerGame)
       })
       fs.unlink(req.file.path, function (err) {

@@ -161,7 +161,7 @@ function parsePokerGame(data){
         handNumber: handNumber,
         player: row.entry.match(straddleRegex)[1],
         playerId: row.entry.match(straddleRegex)[2],
-        action: 'Straddle',
+        action: 'straddle',
         cards: null,
         amount: parseFloat(row.entry.match(straddleRegex)[3]),
         at: row.at,

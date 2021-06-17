@@ -7,6 +7,8 @@
     let handOutcomes = new Chart(ctxOutcome, {{{handOutcomes}}})
     let ctxWinningHands = document.getElementById('winningHands').getContext('2d');
     let winningHands = new Chart(ctxWinningHands, {{{winningHands}}})
+    let ctxPreflopBehavior = document.getElementById('preflopBehavior').getContext('2d');
+    let preflopBehavior = new Chart(ctxPreflopBehavior, {{{preflopBehavior}}})
     // Add styling to ledger table
     let netAmountBadges = document.getElementsByClassName('netAmount')
     for (let i = 0; i < netAmountBadges.length; i++) {
@@ -62,6 +64,11 @@
 <h2>Winning Hands at Showdown</h2>
 <div class="container">
   <canvas id="winningHands"></canvas>
+</div>
+
+<h2>Preflop Behavior</h2>
+<div class="container">
+  <canvas id="preflopBehavior" style="height:600px"></canvas>
 </div>
 
 <h2>Time To Act</h2>
